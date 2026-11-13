@@ -6,9 +6,9 @@
 
 ![Asteroid 2711 Aleksandrov moving between two SPHEREx images](images/asteroid_blink.gif)
 
-**Live website:** `https://YOUR-USERNAME.github.io/whispers-of-motion/`
+**Live website:** https://ssjemey.github.io/whispers-of-motion/
 
-**Demo video:** `YOUR-YOUTUBE-LINK`
+**Demo video:** https://youtu.be/X-NrBeQm-js
 
 ---
 
@@ -55,6 +55,8 @@ JPL lists 12 known asteroids in the small 0.3° field, all fainter than magnitud
 - See the **difference image** (red = was here, blue = moved here)
 - See every **known asteroid** in the field, from NASA JPL
 - Read how the method works and its honest limits
+
+**Accessibility:** every section has a 🔊 **Listen** button that reads it aloud, every image has a written description for screen readers, the asteroid viewer works from the keyboard (**A** / **B** to switch photos, **Space** to blink, **D** for the difference image, **M** to toggle markers), and the animated background stops for users who prefer reduced motion.
 
 ![Website screenshot](images/website.png)
 

@@ -44,6 +44,12 @@ section{padding:44px 0;border-top:1px solid var(--line)}
 button{font:500 14px Inter,sans-serif;color:var(--ink);background:#161a26;border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer}
 button[aria-pressed=true]{background:var(--gold);color:#111;border-color:var(--gold)}
 button:hover{border-color:#3a4058}
+button:focus-visible,a:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:8px;z-index:10;background:var(--gold);color:#111;padding:8px 14px;border-radius:8px;font-weight:600}
+.skip:focus{left:12px}
+.listen{font-size:13px;padding:6px 12px;margin-left:10px;vertical-align:middle}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.kbd{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-top:8px}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .stat{background:rgba(11,13,20,.75);border:1px solid var(--line);border-radius:10px;padding:12px}
 .stat b{display:block;font-family:"JetBrains Mono",monospace;font-size:24px;font-weight:500;color:var(--gold)}
@@ -67,27 +73,31 @@ footer{background:rgba(7,8,13,.8);padding:40px 0 60px;color:var(--muted);font-si
 </head>
 <body>
 
+<a class="skip" href="#target">Skip to the asteroid</a>
 <canvas id="sky" aria-hidden="true"></canvas>
-<header>
+<div id="live" class="sr" aria-live="polite"></div>
+<header id="hero">
   <div class="wrap">
     <div class="eyebrow">NASA Space Apps 2026 · Planet X and SPHEREx</div>
     <h1>Whispers of <em>Motion</em></h1>
     <p class="lede">Among a billion still stars, a few things move: asteroids, comets, maybe a hidden world. Their motion is only a whisper between two images. Blink between two moments of NASA's SPHEREx infrared sky and watch one of them move.</p>
     <p class="hand">made in Dhaka, looking up at the same sky ✦</p>
+    <button class="listen" data-read="hero" aria-label="Listen to the introduction" style="margin:14px 0 0">🔊 Listen to the introduction</button>
     <div class="scroll-hint">scroll to find the wanderer ↓</div>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="main">
 
 <section id="target" class="reveal">
-  <h2>A wanderer, caught in the act</h2>
+  <h2>A wanderer, caught in the act <button class="listen" data-read="target" aria-label="Listen to this section">🔊 Listen</button></h2>
   <p class="sub" id="targetSub">Loading…</p>
   <div class="grid2">
     <div class="card">
-      <div class="viewer" id="zv">
-        <img id="zImg" alt="SPHEREx image of the asteroid">
-        <svg id="zSvg" viewBox="0 0 1 1" preserveAspectRatio="none"></svg>
+      <div class="viewer" id="zv" role="img" aria-describedby="zDesc">
+        <img id="zImg" alt="">
+        <p id="zDesc" class="sr"></p>
+        <svg aria-hidden="true" id="zSvg" viewBox="0 0 1 1" preserveAspectRatio="none"></svg>
         <div class="stamp" id="zStamp"></div>
       </div>
       <div class="controls" role="group" aria-label="Image">
@@ -97,6 +107,7 @@ footer{background:rgba(7,8,13,.8);padding:40px 0 60px;color:var(--muted);font-si
         <button data-z="D" aria-pressed="false">Difference A − B</button>
         <button id="zMarks" aria-pressed="true">Markers</button>
       </div>
+      <p class="kbd">Keyboard: A / B to switch photos · Space to blink · D for difference · M for markers</p>
       <div class="legend">
         <span><i class="dot" style="background:var(--gold)"></i>where it was (A)</span>
         <span><i class="dot" style="background:var(--cyan)"></i>where it moved (B)</span>
@@ -111,13 +122,14 @@ footer{background:rgba(7,8,13,.8);padding:40px 0 60px;color:var(--muted);font-si
 </section>
 
 <section id="field" class="reveal">
-  <h2>The whole patch of sky</h2>
+  <h2>The whole patch of sky <button class="listen" data-read="field" aria-label="Listen to this section">🔊 Listen</button></h2>
   <p class="sub" id="fieldSub">Loading…</p>
   <div class="grid2">
     <div class="card">
       <div class="viewer">
-        <img id="wImg" alt="SPHEREx field">
-        <svg id="wSvg" viewBox="0 0 1 1" preserveAspectRatio="none"></svg>
+        <img id="wImg" alt="">
+        <p id="wDesc" class="sr"></p>
+        <svg aria-hidden="true" id="wSvg" viewBox="0 0 1 1" preserveAspectRatio="none"></svg>
         <div class="stamp" id="wStamp"></div>
       </div>
       <div class="controls" role="group" aria-label="Field image">
@@ -140,7 +152,7 @@ footer{background:rgba(7,8,13,.8);padding:40px 0 60px;color:var(--muted);font-si
 </section>
 
 <section id="how" class="reveal">
-  <h2>How it works</h2>
+  <h2>How it works <button class="listen" data-read="how" aria-label="Listen to this section">🔊 Listen</button></h2>
   <p class="sub">Everything runs on public data with open Python tools (astropy, astroquery, reproject).</p>
   <div class="steps">
     <div class="step"><h3>Find the images</h3><p>Ask NASA/IPAC IRSA for every SPHEREx image covering a point in the sky. SPHEREx revisits each spot several times over hours, then again every six months.</p></div>
@@ -153,7 +165,7 @@ footer{background:rgba(7,8,13,.8);padding:40px 0 60px;color:var(--muted);font-si
 </section>
 
 <section id="honest" class="reveal">
-  <h2>Honest limits</h2>
+  <h2>Honest limits <button class="listen" data-read="honest" aria-label="Listen to this section">🔊 Listen</button></h2>
   <p class="sub">SPHEREx sees each image at a slightly different infrared wavelength, so stars don't cancel perfectly and leave residuals. One exposure only reaches about magnitude 17–18, so fainter asteroids need many images stacked. Predicted positions use Earth's centre rather than SPHEREx's exact orbit, which explains the small, consistent offset of a few pixels. We do not claim to have found Planet X: it is the motivation, not the result.</p>
 </section>
 
@@ -220,6 +232,30 @@ footer{background:rgba(7,8,13,.8);padding:40px 0 60px;color:var(--muted);font-si
 })();
 
 const NS='http://www.w3.org/2000/svg';
+const VIEW={};window.ALT={};
+function say(t){const l=document.getElementById('live');if(l){l.textContent='';setTimeout(()=>l.textContent=t,30);}}
+addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('input,textarea'))return;
+  const v=VIEW.z;if(!v)return;const k=e.key.toLowerCase();
+  if(k==='a'){v.select('A');}else if(k==='b'){v.select('B');}else if(k==='d'){v.select('D');}
+  else if(k==='m'){v.marks.click();}else if(k===' '&&!(e.target.tagName==='BUTTON')){e.preventDefault();v.select('blink');}
+});
+let speaking=null;
+function readSection(id){
+  if(!('speechSynthesis' in window)){say('Sorry, your browser cannot read aloud.');return;}
+  speechSynthesis.cancel();
+  if(speaking===id){speaking=null;document.querySelectorAll('.listen').forEach(b=>b.textContent=b.textContent.replace('⏹ Stop','🔊 Listen'));return;}
+  const el=document.getElementById(id);
+  const parts=[...el.querySelectorAll('h1,h2,h3,p,.stat,.verdict,td')].filter(n=>!n.classList.contains('sr')&&!n.classList.contains('kbd'));
+  let text=parts.map(n=>n.innerText.replace('🔊 Listen','').replace(/σ/g,' sigma').replace(/″/g,' arcseconds')).join('. ');
+  if(id==='target'&&ALT.z)text+='. Image description: '+ALT.z.A+' '+ALT.z.D;
+  if(id==='field'&&ALT.w)text+='. Image description: '+ALT.w.A;
+  const u=new SpeechSynthesisUtterance(text);u.rate=0.95;u.lang='en-US';
+  const btn=document.querySelector(`[data-read="${id}"]`);speaking=id;btn.textContent='⏹ Stop';
+  u.onend=()=>{speaking=null;btn.textContent=btn.textContent.replace('⏹ Stop','🔊 Listen');};
+  speechSynthesis.speak(u);
+}
+document.addEventListener('click',e=>{const b=e.target.closest('.listen');if(b)readSection(b.dataset.read);});
 function el(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
 function ax(svg){return parseFloat(svg.dataset.ax||1);}
 function circle(svg,p,col,r,dash){svg.appendChild(el('circle',{cx:p[0]*ax(svg),cy:p[1],r:r,fill:'none',stroke:col,'stroke-width':.006,'stroke-dasharray':dash||'','vector-effect':'none'}));}
@@ -230,17 +266,20 @@ function makeViewer(prefix,images,stamps,drawMarks,w,h){
   if(w&&h){img.parentElement.style.aspectRatio=w+'/'+h;svg.dataset.ax=w/h;svg.setAttribute('viewBox',`0 0 ${w/h} 1`);}
   const btns=[...document.querySelectorAll(`[data-${prefix}]`)],marks=document.getElementById(prefix+'Marks');
   let timer=null,showMarks=true;
-  function show(k){img.src=images[k];stamp.textContent=stamps[k];}
+  const desc=document.getElementById(prefix+'Desc');
+  function show(k){img.src=images[k];stamp.textContent=stamps[k];
+    const t=(window.ALT&&ALT[prefix]&&ALT[prefix][k])||stamps[k];img.alt=t;if(desc)desc.textContent=t;}
   function select(mode){
     btns.forEach(b=>b.setAttribute('aria-pressed',b.dataset[prefix]===mode));
     clearInterval(timer);timer=null;
-    if(mode==='blink'){let s='A';show(s);timer=setInterval(()=>{s=s==='A'?'B':'A';show(s);},700);}
-    else show(mode);
+    if(mode==='blink'){let s='A';show(s);timer=setInterval(()=>{s=s==='A'?'B':'A';show(s);},700);say('Blinking between photo A and photo B');}
+    else{show(mode);say(stamps[mode]);}
   }
   btns.forEach(b=>b.onclick=()=>select(b.dataset[prefix]));
   marks.onclick=()=>{showMarks=!showMarks;marks.setAttribute('aria-pressed',showMarks);svg.style.display=showMarks?'':'none';};
   Object.values(images).forEach(s=>{const i=new Image();i.src=s;}); // preload
   drawMarks(svg);select('A');
+  VIEW[prefix]={select,marks};
 }
 
 Promise.resolve(window.SPHEREX_DATA).then(d=>{
@@ -256,6 +295,9 @@ Promise.resolve(window.SPHEREX_DATA).then(d=>{
     `<b>Confirmed.</b> Both spots are offset from JPL's prediction by the same amount (agreeing to ${t.offset_agree_px} px), `+
     `the fingerprint of one real object moving across the sky. 5σ or more counts as a clear detection.`;
 
+  ALT.z={A:`Photo A, taken ${d.timeA}: a black SPHEREx infrared image full of white star dots. Asteroid ${t.name} is a faint dot inside the gold circle, right of centre.`,
+         B:`Photo B, taken ${d.timeB}, ${d.gap_h} hours later: the same stars, but the asteroid has moved left and slightly down, into the cyan circle.`,
+         D:`Difference image, photo A minus photo B: the stars mostly cancel to pale noise. A red spot marks where the asteroid was and a blue spot where it moved to, ${t.motion_arcsec} arcseconds apart.`};
   makeViewer('z',{A:t.A,B:t.B,D:t.D},{A:'A · '+d.timeA,B:'B · '+d.timeB,D:'A − B'},svg=>{
     const r=0.06;
     circle(svg,t.jplA,'#fff',r*0.75,'.015 .012');circle(svg,t.jplB,'#fff',r*0.75,'.015 .012');
@@ -266,6 +308,9 @@ Promise.resolve(window.SPHEREX_DATA).then(d=>{
   document.getElementById('fieldSub').innerHTML=
     `A ${d.field.size_deg}° square at RA ${d.field.ra}°, Dec ${d.field.dec}° on the ecliptic, the path where most asteroids travel. `+
     `${d.n_images} SPHEREx images (${d.collection}) cover this point. Gold circles show where JPL says each known asteroid was at time A; the line shows where it went by time B.`;
+  ALT.w={A:`Photo A of the whole ${d.field.size_deg} degree field at RA ${d.field.ra}, Dec ${d.field.dec}: hundreds of stars. Gold circles show where ${w.known.length} known asteroids were, with lines to where they moved.`,
+         B:`Photo B of the whole field, ${d.gap_h} hours later.`,
+         D:`Difference image of the whole field: mostly pale noise with red and blue leftovers around bright stars.`};
   makeViewer('w',{A:w.A,B:w.B,D:w.D},{A:'A · '+d.timeA,B:'B · '+d.timeB,D:'A − B'},svg=>{
     w.known.forEach(k=>{
       if(k.xa!==undefined&&k.xb!==undefined)arrow(svg,[k.xa,k.ya],[k.xb,k.yb],'#e9c46a');
